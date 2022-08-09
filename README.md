@@ -1,5 +1,4 @@
 # Task 1: Software configuration
-<hr>
 
 ## Subtask 1: 
 
