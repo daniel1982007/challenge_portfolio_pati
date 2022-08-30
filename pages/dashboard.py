@@ -1,5 +1,3 @@
-import time
-
 from pages.base_page import BasePage
 
 
@@ -28,5 +26,6 @@ class Dashboard(BasePage):
     expected_title = "Scouts panel"
 
     def title_of_page(self):
-        time.sleep(5)
+        # self.wait_for_element_to_be_clickable(self.scouts_panel_bg_xpath)
+        self.wait_for_element_to_be_clickable(self.players_count_number_xpath)
         assert self.get_page_title(self.dashboard_url) == self.expected_title

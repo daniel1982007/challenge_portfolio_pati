@@ -1,5 +1,11 @@
+import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+from utils.settings import DEFAULT_LOCATOR_TYPE
 
 
 class BasePage():
@@ -25,3 +31,30 @@ class BasePage():
         print(element_text)
 
         assert element_text == expected_text
+
+    def wait_for_element_to_be_clickable(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable((locator_type, locator)))
+
+    def wait_for_element_to_be_visible(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((locator_type, locator)))
+
+    def validate_input_field(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
+        element = self.driver.find_element(locator_type, locator)
+        css_value = element.get_attribute('class')
+        assert 'error' not in css_value
+
+    def choose_an_option(self, clickable_selector, option_list_locator, position, locator_type=DEFAULT_LOCATOR_TYPE):
+        self.click_on_the_element(clickable_selector)
+        option_list = self.driver.find_element(locator_type, option_list_locator)
+        options = option_list.find_elements(locator_type, f"{option_list_locator}//child::li")
+        # for option in options:
+        #     print(option.text)
+        # self.wait_for_element_to_be_visible(input_selector)
+        # self.field_send_keys(input_selector, legs[position].text)
+        self.click_on_the_element(f"{option_list_locator}//child::li[{position}]")
+
+
+
+

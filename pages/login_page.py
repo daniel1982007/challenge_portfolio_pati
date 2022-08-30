@@ -1,4 +1,9 @@
+import time
+
+from selenium.webdriver.common.by import By
+
 from pages.base_page import BasePage
+from utils.settings import DEFAULT_LOCATOR_TYPE
 
 
 class LoginPage(BasePage):
@@ -22,6 +27,10 @@ class LoginPage(BasePage):
 
     def click_on_login(self):
         self.click_on_the_element(self.sign_in_button_xpath)
+
+    def is_login(self):
+        url = self.driver.current_url
+        assert url == "https://scouts-test.futbolkolektyw.pl/"
 
     def title_of_page(self):
         assert self.get_page_title(self.login_url) == self.expected_title
