@@ -67,7 +67,7 @@ class AddPlayerTest(unittest.TestCase):
         add_player.wait_for_element_to_be_visible("//input[@name='webYT[0]']")
         add_player.field_send_keys("//input[@name='webYT[0]']", "")
         # set a time break
-        time.sleep(4)
+        time.sleep(3)
         # validation of the required fields
         add_player.validate_input_field("//input[@name='name']//parent::div")
         add_player.validate_input_field("//input[@name='surname']//parent::div")
@@ -75,4 +75,6 @@ class AddPlayerTest(unittest.TestCase):
         add_player.validate_input_field("//input[@name='mainPosition']//parent::div")
         # add info to database
         add_player.add_a_player_to_database("//button[@type='submit']")
+        # wait for confirmation
+        time.sleep(3)
 
