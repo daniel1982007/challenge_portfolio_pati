@@ -7,6 +7,10 @@ from utils.settings import DEFAULT_LOCATOR_TYPE
 
 
 class EditAPlayer(BasePage):
+    edit_player_title_path = "//title[starts-with(., 'Edit player')]"
+    name_path = "//input[@name='name']"
+    main_position_path = "//input[@name='mainPosition']"
+    submit_button_path = "//button[@type='submit']"
 
     def get_the_player_to_be_edited(self, page, row, locator_type=DEFAULT_LOCATOR_TYPE):
         url = f"https://scouts-test.futbolkolektyw.pl/en/players?lng=en&subpath=en&start={page}"

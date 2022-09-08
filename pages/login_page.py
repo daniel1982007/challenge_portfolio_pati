@@ -1,7 +1,3 @@
-import time
-
-from selenium.webdriver.common.by import By
-
 from pages.base_page import BasePage
 from utils.settings import DEFAULT_LOCATOR_TYPE
 
@@ -14,9 +10,9 @@ class LoginPage(BasePage):
     header_xpath = "//h5"
     polski_xpath = "//li[@data-value='pl']"
     english_xpath = "//li[@data-value='en']"
-
     login_url = "https://scouts-test.futbolkolektyw.pl/en"
     expected_title = "Scouts panel - sign in"
+    error_message = "//form/div/div[1]//span"
 
 
     def type_in_email(self, email):
@@ -28,9 +24,14 @@ class LoginPage(BasePage):
     def click_on_login(self):
         self.click_on_the_element(self.sign_in_button_xpath)
 
-    def is_login(self):
-        url = self.driver.current_url
-        assert url == "https://scouts-test.futbolkolektyw.pl/"
+    def is_login(self, locator_type=DEFAULT_LOCATOR_TYPE):
+        # url = self.driver.current_url
+        # assert url == "https://scouts-test.futbolkolektyw.pl/en/login?redirected=true"
+        error_message = self.driver.find_element(locator_type, self.error_message)
+        error_message_css_value = error_message.get_attribute('class')
+        print(error_message_css_value)
+        assert "Error" in error_message_css_value
+
 
     def title_of_page(self):
         assert self.get_page_title(self.login_url) == self.expected_title

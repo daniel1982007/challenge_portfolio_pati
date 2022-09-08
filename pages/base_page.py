@@ -40,10 +40,15 @@ class BasePage():
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((locator_type, locator)))
 
-    def validate_input_field(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
+    def wait_for_element_to_be_located(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.presence_of_element_located((locator_type, locator)))
+
+    def get_input_error_css_value(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
         element = self.driver.find_element(locator_type, locator)
         css_value = element.get_attribute('class')
-        assert 'error' not in css_value
+        print(css_value)
+        return css_value
 
     def choose_an_option(self, clickable_selector, option_list_locator, position, locator_type=DEFAULT_LOCATOR_TYPE):
         self.click_on_the_element(clickable_selector)

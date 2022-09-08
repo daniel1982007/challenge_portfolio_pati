@@ -21,6 +21,9 @@ class ChangeLanguageTest(unittest.TestCase):
         self.driver.get('https://scouts-test.futbolkolektyw.pl/en')
         self.driver.fullscreen_window()
         self.driver.implicitly_wait(IMPLICITLY_WAIT)
+        self.user_login = LoginPage(self.driver)
+        self.dashboard = Dashboard(self.driver)
+        self.side_bar = SideBar(self.driver)
 
     @classmethod
     def tearDown(self):
@@ -28,18 +31,15 @@ class ChangeLanguageTest(unittest.TestCase):
 
     def test_change_language(self):
         # login to system
-        user_login = LoginPage(self.driver)
-        user_login.type_in_email("user01@getnada.com")
-        user_login.type_in_password("Test-1234")
-        user_login.click_on_login()
+        self.user_login.type_in_email("user01@getnada.com")
+        self.user_login.type_in_password("Test-1234")
+        self.user_login.click_on_login()
         # load the dashboard page
-        dashboard = Dashboard(self.driver)
-        dashboard.wait_for_element_to_be_clickable(dashboard.add_player_link_xpath)
-        time.sleep(3)
-        # signout from system
-        side_bar = SideBar(self.driver)
-        language_xpath = side_bar.languages_link
-        side_bar.click_on_the_element(language_xpath)
+        self.dashboard.wait_for_element_to_be_clickable(self.dashboard.add_player_link_xpath)
+        time.sleep(2)
+        # change a language
+        self.side_bar.click_on_the_element(self.side_bar.languages_link)
+
         time.sleep(3)
 
 
