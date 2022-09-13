@@ -22,10 +22,9 @@ class Dashboard(BasePage):
     last_updated_player_link_xpath = "//*[text()='Last updated player']//following-sibling::a[1]"
     last_updated_report_link_xpath = "//*[text()='Last updated report']//following-sibling::a[1]"
 
-    dashboard_url = "https://scouts-test.futbolkolektyw.pl/"
-    expected_title = "Scouts panel"
+    dashboard_url = "https://scouts.futbolkolektyw.pl/en"
+    expected_title = "PANEL SKAUTINGOWY"
 
     def title_of_page(self):
-        # self.wait_for_element_to_be_clickable(self.scouts_panel_bg_xpath)
         self.wait_for_element_to_be_clickable(self.players_count_number_xpath)
         assert self.get_page_title(self.dashboard_url) == self.expected_title

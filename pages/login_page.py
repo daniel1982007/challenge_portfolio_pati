@@ -10,7 +10,7 @@ class LoginPage(BasePage):
     header_xpath = "//h5"
     polski_xpath = "//li[@data-value='pl']"
     english_xpath = "//li[@data-value='en']"
-    login_url = "https://scouts-test.futbolkolektyw.pl/en"
+    login_url = "https://scouts.futbolkolektyw.pl/en"
     expected_title = "Scouts panel - sign in"
     error_message = "//form/div/div[1]//span"
 

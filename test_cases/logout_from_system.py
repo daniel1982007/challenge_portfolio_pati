@@ -18,7 +18,7 @@ class LogoutTest(unittest.TestCase):
         os.chmod(DRIVER_PATH, 755)
         self.driver_service = Service(executable_path=DRIVER_PATH)
         self.driver = webdriver.Chrome(service=self.driver_service)
-        self.driver.get('https://scouts-test.futbolkolektyw.pl/en')
+        self.driver.get('https://scouts.futbolkolektyw.pl/en')
         self.driver.fullscreen_window()
         self.driver.implicitly_wait(IMPLICITLY_WAIT)
         self.user_login = LoginPage(self.driver)

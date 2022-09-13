@@ -13,7 +13,7 @@ class EditAPlayer(BasePage):
     submit_button_path = "//button[@type='submit']"
 
     def get_the_player_to_be_edited(self, page, row, locator_type=DEFAULT_LOCATOR_TYPE):
-        url = f"https://scouts-test.futbolkolektyw.pl/en/players?lng=en&subpath=en&start={page}"
+        url = f"https://scouts.futbolkolektyw.pl/en/players?lng=en&subpath=en&start={page}"
         self.driver.get(url)
         player_locator = f"//tr[@id='MUIDataTableBodyRow-{row}']"
         player_to_be_edit = self.driver.find_element(locator_type, player_locator)

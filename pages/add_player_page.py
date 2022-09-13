@@ -30,6 +30,8 @@ class AddAPlayer(BasePage):
     choose_leg_path = "//input[@name='leg']/parent::div"
     choose_district_path = "//input[@name='district']/parent::div"
     options_list_path = "//ul[@role='listbox']"
+    toastify_message_path = "//div[@class='Toastify']"
+    submit_button = "//button[@type='submit']"
 
     def type_in_required_fields(self, name, surname, age, main_position):
         self.field_send_keys(self.name_path, name)
@@ -73,11 +75,35 @@ class AddAPlayer(BasePage):
     def add_a_player_to_database(self, submit_button_selector):
         self.click_on_the_element(submit_button_selector)
 
-    def validate_all_required_fields(self):
-        name_error_css_value = self.get_input_error_css_value(self.name_error_path)
-        surname_error_css_value = self.get_input_error_css_value(self.surname_error_path)
-        age_error_css_value = self.get_input_error_css_value(self.age_error_path)
-        main_position_error_css_value = self.get_input_error_css_value(self.main_position_error_path)
-        css_value = name_error_css_value + surname_error_css_value + age_error_css_value + main_position_error_css_value
-        print(css_value)
-        assert 'error' in css_value
+    def new_player_should_be_added_to_database(self, locator_type=DEFAULT_LOCATOR_TYPE):
+        self.wait_for_element_to_be_visible(self.toastify_message_path)
+        text = self.driver.find_element(locator_type, self.toastify_message_path).text
+        print(text)
+        assert 'Added player' in text
+
+
+    def required_fields_should_not_pass(self):
+        # name_error_css_value = self.get_input_error_css_value(self.name_error_path)
+        # surname_error_css_value = self.get_input_error_css_value(self.surname_error_path)
+        # age_error_css_value = self.get_input_error_css_value(self.age_error_path)
+        # main_position_error_css_value = self.get_input_error_css_value(self.main_position_error_path)
+        # css_value = name_error_css_value + surname_error_css_value + age_error_css_value + main_position_error_css_value
+        # print(css_value)
+        # assert 'error' in css_value
+
+        name_valid_m = self.get_input_validation_message(self.name_path)
+        surname_valid_m = self.get_input_validation_message(self.surname_path)
+        age_valid_m = self.get_input_validation_message(self.age_path)
+        main_position_valid_m = self.get_input_validation_message(self.main_position_path)
+        if name_valid_m != '':
+            print(name_valid_m)
+            assert True
+        elif surname_valid_m != '':
+            print(surname_valid_m)
+            assert True
+        elif age_valid_m != '':
+            print(age_valid_m)
+            assert True
+        elif main_position_valid_m != '':
+            print(main_position_valid_m)
+            assert True

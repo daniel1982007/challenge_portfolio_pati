@@ -18,7 +18,7 @@ class AddPlayerTest(unittest.TestCase):
         os.chmod(DRIVER_PATH, 755)
         self.driver_service = Service(executable_path=DRIVER_PATH)
         self.driver = webdriver.Chrome(service=self.driver_service)
-        self.driver.get('https://scouts-test.futbolkolektyw.pl/en')
+        self.driver.get('https://scouts.futbolkolektyw.pl/en')
         self.driver.fullscreen_window()
         self.driver.implicitly_wait(IMPLICITLY_WAIT)
 
@@ -37,7 +37,6 @@ class AddPlayerTest(unittest.TestCase):
         self.user_login.click_on_login()
         self.dashboard.wait_for_element_to_be_clickable(self.dashboard.add_player_link_xpath)
         self.dashboard.click_on_the_element(self.dashboard.add_player_link_xpath)
-        # self.driver.get('https://scouts-test.futbolkolektyw.pl/en/players/add')
         self.add_player.wait_for_element_to_be_visible(self.add_player.add_player_header)
 
         # add player info and validate info then add to database
@@ -61,8 +60,8 @@ class AddPlayerTest(unittest.TestCase):
         time.sleep(3)
         # add info to database
         self.add_player.add_a_player_to_database("//button[@type='submit']")
-        # wait for confirmation
-        time.sleep(3)
+        self.add_player.new_player_should_be_added_to_database()
+        time.sleep(1)
 
 
     def test_add_a_player_with_invalid_data(self):
@@ -73,6 +72,7 @@ class AddPlayerTest(unittest.TestCase):
         self.dashboard.click_on_the_element(self.dashboard.add_player_link_xpath)
         self.add_player.wait_for_element_to_be_visible(self.add_player.add_player_header)
         # fields required
-        self.add_player.type_in_required_fields("test_test", "test_test", "mm,dd,yyyy", "shooter")
+        self.add_player.type_in_required_fields("test_test", "test_test", "12,dd,yyyy", "shooter")
+        self.add_player.click_on_the_element(self.add_player.submit_button)
         time.sleep(2)
-        self.add_player.validate_all_required_fields()
+        self.add_player.required_fields_should_not_pass()

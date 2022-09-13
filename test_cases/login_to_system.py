@@ -17,7 +17,7 @@ class LoginPageTest(unittest.TestCase):
         os.chmod(DRIVER_PATH, 755)
         self.driver_serivce = Service(executable_path=DRIVER_PATH)
         self.driver = webdriver.Chrome(service=self.driver_serivce)
-        self.driver.get('https://scouts-test.futbolkolektyw.pl/en')
+        self.driver.get('https://scouts.futbolkolektyw.pl/en')
         self.driver.fullscreen_window()
         self.driver.implicitly_wait(IMPLICITLY_WAIT)
         self.user_login = LoginPage(self.driver)
@@ -30,7 +30,7 @@ class LoginPageTest(unittest.TestCase):
 
     def test_login_page(self):
         self.user_login.title_of_page()   # check page title
-        self.user_login.assert_element_text(self.user_login.header_xpath, "Scouts Panel")   # check the header text element
+        self.user_login.assert_element_text(self.user_login.header_xpath, "PANEL SKAUTINGOWY")   # check the header text element
         self.user_login.type_in_email("user01@getnada.com")
         self.user_login.type_in_password("Test-1234")
         self.user_login.click_on_login()
@@ -41,7 +41,7 @@ class LoginPageTest(unittest.TestCase):
 
     def test_login_page_with_uncorrected_credential(self):
         self.user_login.title_of_page()
-        self.user_login.assert_element_text(self.user_login.header_xpath, "Scouts Panel")
+        self.user_login.assert_element_text(self.user_login.header_xpath, "PANEL SKAUTINGOWY")
         self.user_login.type_in_email("example@example.com")
         self.user_login.type_in_password("***")
         self.user_login.click_on_login()

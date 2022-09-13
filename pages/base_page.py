@@ -44,6 +44,17 @@ class BasePage():
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((locator_type, locator)))
 
+    # def wait_success_toastify_message(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
+    #     wait = WebDriverWait(self.driver, 10)
+    #     element = wait.until(EC.presence_of_element_located((locator_type, locator)))
+    #     return element.text
+
+    def get_input_validation_message(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
+        element = self.driver.find_element(locator_type, locator)
+        message = element.get_property('validationMessage')
+        return message
+
+
     def get_input_error_css_value(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
         element = self.driver.find_element(locator_type, locator)
         css_value = element.get_attribute('class')
