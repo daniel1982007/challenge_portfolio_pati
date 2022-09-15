@@ -1,3 +1,4 @@
+import math
 import time
 
 from selenium.webdriver.common.by import By
@@ -44,10 +45,10 @@ class BasePage():
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((locator_type, locator)))
 
-    # def wait_success_toastify_message(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
-    #     wait = WebDriverWait(self.driver, 10)
-    #     element = wait.until(EC.presence_of_element_located((locator_type, locator)))
-    #     return element.text
+    def wait_and_get_toastify_message(self, toastify_locator, locator_type=DEFAULT_LOCATOR_TYPE):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((locator_type, toastify_locator)))
+        return element.text
 
     def get_input_validation_message(self, locator, locator_type=DEFAULT_LOCATOR_TYPE):
         element = self.driver.find_element(locator_type, locator)
@@ -71,6 +72,43 @@ class BasePage():
         # self.field_send_keys(input_selector, legs[position].text)
         self.click_on_the_element(f"{option_list_locator}//child::li[{position}]")
 
+    def go_to_a_player_page(self, click_times, next_or_back, arrow_locator, pagination_locator, locator_type=DEFAULT_LOCATOR_TYPE):
+        # find how many players in total
+        players_pagination_text = self.driver.find_element(locator_type, pagination_locator).text
+        index_start = players_pagination_text.index('f')
+        number_text = players_pagination_text[index_start + 2:]
+        number = int(number_text)
 
+        page_title = self.driver.title
+        current_page_number_start_index = page_title.index('page') + 5
+        current_page_number = int(page_title[current_page_number_start_index:])
 
+        max_click_times = math.floor(number / 10)
 
+        if next_or_back == 'next':
+            max_click_times -= current_page_number - 1
+            if click_times == 0:
+                pass
+            elif click_times >= max_click_times:
+                for _ in range(max_click_times):
+                    self.click_on_the_element(arrow_locator)
+                WebDriverWait(self.driver, 10).until(EC.title_is(f'Players ({number_text}) page {max_click_times + 1}'))
+            else:
+                for _ in range(click_times):
+                    self.click_on_the_element(arrow_locator)
+                    print(current_page_number, click_times)
+                    print(f'Players ({number_text}) page {current_page_number + click_times}')
+                    print(self.driver.title)
+                WebDriverWait(self.driver, 10).until(EC.title_is(f'Players ({number_text}) page {current_page_number + click_times}'))
+        elif next_or_back == 'back':
+            max_click_times = current_page_number - 1
+            if click_times == 0:
+                pass
+            elif click_times >= max_click_times:
+                for _ in range(max_click_times):
+                    self.click_on_the_element(arrow_locator)
+                WebDriverWait(self.driver, 10).until(EC.title_is(f'Players ({number_text}) page 1'))
+            else:
+                for _ in range(click_times):
+                    self.click_on_the_element(arrow_locator)
+                WebDriverWait(self.driver, 10).until(EC.title_is(f'Players ({number_text}) page {current_page_number - click_times}'))

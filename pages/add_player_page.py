@@ -1,7 +1,4 @@
-import time
-
 from pages.base_page import BasePage
-from utils.settings import DEFAULT_LOCATOR_TYPE
 
 
 class AddAPlayer(BasePage):
@@ -19,6 +16,7 @@ class AddAPlayer(BasePage):
     weight_path = "//input[@name='weight']"
     height_path = "//input[@name='height']"
     club_path = "//input[@name='club']"
+    exclub_path = "//input[@name='exClub']"
     level_path = "//input[@name='level']"
     second_position_path = "//input[@name='secondPosition']"
     achievements_path = "//input[@name='achievements']"
@@ -61,10 +59,17 @@ class AddAPlayer(BasePage):
         self.wait_for_element_to_be_visible(new_language_input_path)
         self.field_send_keys(new_language_input_path, language)
 
-    def add_social_media(self, football="", ninty_minutes="", facebook=""):
+    def add_social_media_football(self, football=""):
         self.field_send_keys(self.football_path, football)
+
+    def add_social_media_90(self, ninty_minutes=""):
         self.field_send_keys(self.ninty_minutes_path, ninty_minutes)
+
+    def add_social_media_facebook(self, facebook=""):
         self.field_send_keys(self.facebook_path, facebook)
+
+    def add_social_media_exclub(self, exclub=""):
+        self.field_send_keys(self.exclub_path, exclub)
 
     def add_youtube_channel(self, order, youtube_link=""):
         self.click_on_the_element(self.add_youtube_button_path)
@@ -72,25 +77,15 @@ class AddAPlayer(BasePage):
         self.wait_for_element_to_be_visible(new_youtube_channel_input_path)
         self.field_send_keys(new_youtube_channel_input_path, youtube_link)
 
-    def add_a_player_to_database(self, submit_button_selector):
-        self.click_on_the_element(submit_button_selector)
+    def add_a_player_to_database(self):
+        self.click_on_the_element(self.submit_button)
 
-    def new_player_should_be_added_to_database(self, locator_type=DEFAULT_LOCATOR_TYPE):
-        self.wait_for_element_to_be_visible(self.toastify_message_path)
-        text = self.driver.find_element(locator_type, self.toastify_message_path).text
-        print(text)
+    def new_player_should_be_added_to_database(self):
+        text = self.wait_and_get_toastify_message(self.toastify_message_path)
         assert 'Added player' in text
 
 
     def required_fields_should_not_pass(self):
-        # name_error_css_value = self.get_input_error_css_value(self.name_error_path)
-        # surname_error_css_value = self.get_input_error_css_value(self.surname_error_path)
-        # age_error_css_value = self.get_input_error_css_value(self.age_error_path)
-        # main_position_error_css_value = self.get_input_error_css_value(self.main_position_error_path)
-        # css_value = name_error_css_value + surname_error_css_value + age_error_css_value + main_position_error_css_value
-        # print(css_value)
-        # assert 'error' in css_value
-
         name_valid_m = self.get_input_validation_message(self.name_path)
         surname_valid_m = self.get_input_validation_message(self.surname_path)
         age_valid_m = self.get_input_validation_message(self.age_path)
@@ -107,3 +102,11 @@ class AddAPlayer(BasePage):
         elif main_position_valid_m != '':
             print(main_position_valid_m)
             assert True
+
+        # name_error_css_value = self.get_input_error_css_value(self.name_error_path)
+        # surname_error_css_value = self.get_input_error_css_value(self.surname_error_path)
+        # age_error_css_value = self.get_input_error_css_value(self.age_error_path)
+        # main_position_error_css_value = self.get_input_error_css_value(self.main_position_error_path)
+        # css_value = name_error_css_value + surname_error_css_value + age_error_css_value + main_position_error_css_value
+        # print(css_value)
+        # assert 'error' in css_value

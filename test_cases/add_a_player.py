@@ -52,14 +52,16 @@ class AddPlayerTest(unittest.TestCase):
         self.add_player.add_a_language(1, 'English')
         self.add_player.add_a_language(2, 'Polish')
         # add social media
-        self.add_player.add_social_media('new-link', 'new-link')
+        self.add_player.add_social_media_football('new-link')
+        self.add_player.add_social_media_90('new-link')
+        self.add_player.add_social_media_exclub('new-link')
         # add youtube channel
         self.add_player.add_youtube_channel(0, 'myfirstyoutubechannel')     # input index starts from 0
         self.add_player.add_youtube_channel(1, 'mysecondyoutubechannel')
         # set a time break
         time.sleep(3)
         # add info to database
-        self.add_player.add_a_player_to_database("//button[@type='submit']")
+        self.add_player.add_a_player_to_database()
         self.add_player.new_player_should_be_added_to_database()
         time.sleep(1)
 
@@ -72,7 +74,7 @@ class AddPlayerTest(unittest.TestCase):
         self.dashboard.click_on_the_element(self.dashboard.add_player_link_xpath)
         self.add_player.wait_for_element_to_be_visible(self.add_player.add_player_header)
         # fields required
-        self.add_player.type_in_required_fields("test_test", "test_test", "12,dd,yyyy", "shooter")
-        self.add_player.click_on_the_element(self.add_player.submit_button)
-        time.sleep(2)
+        self.add_player.type_in_required_fields("test_test", "test_test", "12,12,yyyy", "shooter")
+        self.add_player.add_a_player_to_database()
+        time.sleep(1)
         self.add_player.required_fields_should_not_pass()

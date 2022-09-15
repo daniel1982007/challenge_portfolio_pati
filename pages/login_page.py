@@ -10,7 +10,7 @@ class LoginPage(BasePage):
     header_xpath = "//h5"
     polski_xpath = "//li[@data-value='pl']"
     english_xpath = "//li[@data-value='en']"
-    login_url = "https://scouts.futbolkolektyw.pl/en"
+    login_url = "https://scouts-test.futbolkolektyw.pl/en"
     expected_title = "Scouts panel - sign in"
     error_message = "//form/div/div[1]//span"
 
@@ -25,8 +25,6 @@ class LoginPage(BasePage):
         self.click_on_the_element(self.sign_in_button_xpath)
 
     def is_login(self, locator_type=DEFAULT_LOCATOR_TYPE):
-        # url = self.driver.current_url
-        # assert url == "https://scouts-test.futbolkolektyw.pl/en/login?redirected=true"
         error_message = self.driver.find_element(locator_type, self.error_message)
         error_message_css_value = error_message.get_attribute('class')
         print(error_message_css_value)

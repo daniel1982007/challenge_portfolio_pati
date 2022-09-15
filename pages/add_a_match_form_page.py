@@ -1,9 +1,8 @@
 from pages.base_page import BasePage
 
 
-class AddAMatch(BasePage):
-    players_title_path = "//title[starts-with(., 'Players')]"
-    add_a_match_button_path = "//span[text()='Add match']//parent::button"
+class AddAMatchForm(BasePage):
+    title_path = "//title[starts-with(., 'Adding match player')]"
     submit_button_path = "//span[text()='Submit']/parent::button"
     my_team_input_path = "//input[@name='myTeam']"
     enemy_team_input_path = "//input[@name='enemyTeam']"
@@ -20,7 +19,8 @@ class AddAMatch(BasePage):
     home_path = "//fieldset//label[1]"
     out_home_path = "//fieldset//label[2]"
 
-
+    def wait_for_add_a_match_form_title(self):
+        self.wait_for_element_to_be_located(self.title_path)
 
     def type_required_of_a_match(self, my_team_name, enemy_team_name, my_score, enemy_score, date):
         self.field_send_keys(self.my_team_input_path, my_team_name)
